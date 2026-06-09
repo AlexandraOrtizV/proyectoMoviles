@@ -1,12 +1,12 @@
-package com.example.proyecto // 👈 Asegúrate de que esta línea coincida con tu paquete real
+package com.example.proyecto
 
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,18 +14,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 1. Encontrar los componentes por su ID (Dejamos que Kotlin detecte el tipo automático)
         val drawerLayout = findViewById<DrawerLayout>(R.id.main)
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         val navView = findViewById<NavigationView>(R.id.nav_view)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        // 2. Configurar la Toolbar como la barra de soporte de la actividad
         setSupportActionBar(toolbar)
-        // 👈 AGREGA ESTA LÍNEA AQUÍ:
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // 3. Crear el "Toggle" (el puente entre la Toolbar y el Drawer)
         val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -33,28 +29,57 @@ class MainActivity : AppCompatActivity() {
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-
-        // 4. Conectar el toggle al DrawerLayout y sincronizarlo
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // 5. Configurar qué pasa cuando das clic a una opción del menú hamburguesa
+        // Cargar el fragmento inicial por defecto (InicioFragment) si es la primera vez que se crea la actividad
+        if (savedInstanceState == null) {
+            cambiarFragmento(InicioFragment())
+        }
+
+        // 5. Configurar menú hamburguesa (Navigation Drawer)
         navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                // Aquí manejas los clics de tu drawer_menu.xml
-                // R.id.tu_item_id -> { }
+                R.id.nav_inicio -> cambiarFragmento(InicioFragment())
+                R.id.nav_calendario -> cambiarFragmento(CalendarioFragment())
+                R.id.nav_consultar -> cambiarFragmento(ConsultarEventoFragment())
+                R.id.nav_crear -> cambiarFragmento(CrearEventoFragment())
+                R.id.nav_respaldo -> cambiarFragmento(RespandoDropboxFragment())
+                R.id.nav_restaurar -> cambiarFragmento(RestaurarDropBoxFragment())
+                R.id.nav_acerca_de -> cambiarFragmento(AcercaDeFragment())
+                R.id.nav_salir -> finishAffinity() // Cierra la app por completo limpiando la pila
+                //R.id.nav_salir -> finishAffinity() // Cierra la app por completo limpiando la pila
             }
             drawerLayout.closeDrawers()
             true
         }
 
-        // 6. Configurar qué pasa cuando das clic a la barra inferior
+        // 6. Configurar barra inferior (Bottom Navigation View)
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                // Aquí manejas los clics de tu bottom_menu.xml
-                // R.id.tu_item_id -> { true }
+                R.id.nav_inicio -> {
+                    cambiarFragmento(InicioFragment())
+                    true
+                }
+                R.id.nav_consultar -> {
+                    cambiarFragmento(ConsultarEventoFragment())
+                    true
+                }
+                R.id.nav_salir -> {
+                    finishAffinity()
+                    true
+                }
                 else -> false
             }
         }
+    }
+
+    /**
+     * Función auxiliar para reemplazar el fragmento actual dentro del contenedor
+     */
+    private fun cambiarFragmento(fragmento: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragmento)
+            .commit()
     }
 }

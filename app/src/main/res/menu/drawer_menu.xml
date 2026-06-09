@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/burg_añadirEvento" />
-    <item android:title="@string/burg_consultarEventos" />
-    <item android:title="@string/burg_calendario" />
-    <item android:title="@string/burg_respaldoDropbox" />
-    <item android:title="@string/burg_restaurarDropbox" />
-    <item android:title="@string/burg_acerca" />
-    <item android:title="@string/burg_exit" />
+    <item
+        android:id="@+id/nav_crear"
+        android:title="@string/burg_añadirEvento" />
+    <item
+        android:id="@+id/nav_consultar"
+        android:title="@string/burg_consultarEventos" />
+    <item
+        android:id="@+id/nav_calendario"
+        android:title="@string/burg_calendario" />
+    <item
+        android:id="@+id/nav_respaldo"
+        android:title="@string/burg_respaldoDropbox" />
+    <item
+        android:id="@+id/nav_restaurar"
+        android:title="@string/burg_restaurarDropbox" />
+    <item
+        android:id="@+id/nav_acerca_de"
+        android:title="@string/burg_acerca" />
+    <item
+        android:id="@+id/nav_salir"
+        android:title="@string/burg_exit" />
 </menu>

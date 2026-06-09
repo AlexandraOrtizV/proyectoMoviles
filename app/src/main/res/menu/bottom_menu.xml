@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_ini"
+        android:id="@+id/nav_inicio"
         android:icon="@drawable/ic_home"
         android:title="@string/menu_ini" />
     <item
-        android:id="@+id/menu_cons"
+        android:id="@+id/nav_consultar"
         android:icon="@drawable/ic_buscar"
         android:title="@string/menu_cons" />
     <item
-        android:id="@+id/menu_exit"
+        android:id="@+id/nav_salir"
         android:icon="@drawable/ic_exit"
         android:title="@string/menu_sal" />
 </menu>

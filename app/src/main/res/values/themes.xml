@@ -5,5 +5,8 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="ToolbarTitleStyle" parent="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item> <item name="android:fontFamily">@font/bayon</item> <item name="android:textStyle">bold</item> </style>
+
     <style name="Theme.Proyecto" parent="Base.Theme.Proyecto" />
 </resources>

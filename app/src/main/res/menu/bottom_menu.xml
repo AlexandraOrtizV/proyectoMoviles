@@ -4,11 +4,14 @@
 
     <item
         android:id="@+id/menu_ini"
+        android:icon="@drawable/ic_home"
         android:title="@string/menu_ini" />
     <item
         android:id="@+id/menu_cons"
+        android:icon="@drawable/ic_buscar"
         android:title="@string/menu_cons" />
     <item
         android:id="@+id/menu_exit"
+        android:icon="@drawable/ic_exit"
         android:title="@string/menu_sal" />
 </menu>

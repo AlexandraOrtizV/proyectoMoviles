@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Proyecto</string>
+    <string name="menu_ini">inicio</string>
+    <string name="menu_cons">consultar</string>
+    <string name="menu_sal">salir</string>
+    <string name="burg_añadirEvento">Añadir Evento</string>
+    <string name="burg_consultarEventos">Consultar Eventos</string>
+    <string name="burg_calendario">Calendario</string>
+    <string name="burg_respaldoDropbox">Respaldo en Dropbox</string>
+    <string name="burg_restaurarDropbox">Restaurar datos de Dropbox</string>
+    <string name="burg_acerca">Acerca de...</string>
+    <string name="burg_exit">Salir</string>
+</resources>

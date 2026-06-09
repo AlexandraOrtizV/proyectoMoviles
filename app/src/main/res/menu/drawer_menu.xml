@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/burg_añadirEvento" />
+    <item android:title="@string/burg_consultarEventos" />
+    <item android:title="@string/burg_calendario" />
+    <item android:title="@string/burg_respaldoDropbox" />
+    <item android:title="@string/burg_restaurarDropbox" />
+    <item android:title="@string/burg_acerca" />
+    <item android:title="@string/burg_exit" />
+</menu>

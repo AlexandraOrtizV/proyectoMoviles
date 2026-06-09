@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InicioFragment">
+    android:background="@color/fondo"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="24dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvTituloHoy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvVacioHoy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No tienes eventos agendados para el día de hoy"
+        android:gravity="center"
+        android:textColor="#888888"
+        android:layout_margin="16dp"
+        android:visibility="gone"/> <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rvEventosHoy"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="false"/>
+
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Pantalla de inicio" />
+        android:layout_height="wrap_content"
+        android:text="Eventos Próximos"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvVacioProximos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No hay eventos próximos"
+        android:gravity="center"
+        android:textColor="#888888"
+        android:layout_margin="16dp"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEventosProximos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"/>
+
+</LinearLayout>
+</ScrollView>

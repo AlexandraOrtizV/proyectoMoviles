@@ -2,6 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cian">#09D8C7</color>
+    <color name="red">#561c24</color>
+    <color name="yellow">#f4b315</color>
     <color name="fondo">#29383B</color>
     <color name="botones">#86A39E</color>
+    <color name="navy">#133332</color>
+    <color name="iconos">#0B2B26</color>
+
 </resources>

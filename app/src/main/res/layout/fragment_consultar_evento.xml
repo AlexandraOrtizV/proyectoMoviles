@@ -220,7 +220,7 @@
         android:layout_marginBottom="4dp">
         <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/fecha" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
         <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/hora" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/categoría" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/categor_a" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
         <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/status" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
     </LinearLayout>
 

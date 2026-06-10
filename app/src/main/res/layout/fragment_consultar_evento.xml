@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/consultar_eventos"
         android:textAlignment="center"
-        android:textColor="@color/cian"
+        android:textColor="@color/botones"
         android:textSize="26sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
@@ -149,8 +149,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:hint="@string/fecha_inicial"
-                    app:boxStrokeColor="@color/cian"
-                    app:hintTextColor="@color/cian"
+                    app:boxStrokeColor="@color/botones"
+                    app:hintTextColor="@color/botones"
                     android:layout_marginEnd="8dp">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFechaInicial"
@@ -169,8 +169,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:hint="@string/fecha_final"
-                    app:boxStrokeColor="@color/cian"
-                    app:hintTextColor="@color/cian">
+                    app:boxStrokeColor="@color/botones"
+                    app:hintTextColor="@color/botones">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFechaFinal"
                         android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                 android:text="@string/consultar"
                 android:textColor="@color/iconos"
                 android:textStyle="bold"
-                app:backgroundTint="@color/cian"
+                app:backgroundTint="@color/botones"
                 app:cornerRadius="8dp"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -201,9 +201,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/buscar_descripci_n"
         app:startIconDrawable="@android:drawable/ic_menu_search"
-        app:startIconTint="@color/cian"
-        app:boxStrokeColor="@color/cian"
-        app:hintTextColor="@color/cian"
+        app:startIconTint="@color/botones"
+        app:boxStrokeColor="@color/botones"
+        app:hintTextColor="@color/botones"
         android:layout_marginBottom="12dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etBusquedaRapida"
@@ -218,16 +218,16 @@
         android:orientation="horizontal"
         android:paddingBottom="8dp"
         android:layout_marginBottom="4dp">
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/fecha" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/hora" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/categor_a" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/status" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/fecha" android:textColor="@color/botones" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/hora" android:textColor="@color/botones" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/categor_a" android:textColor="@color/botones" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/status" android:textColor="@color/botones" android:textStyle="bold" android:textSize="12sp"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/cian"
+        android:background="@color/botones"
         android:layout_marginBottom="8dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

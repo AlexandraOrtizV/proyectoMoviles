@@ -39,6 +39,7 @@
     <string name="por_d_a">Por día</string>
     <string name="por_mes">Por mes</string>
     <string name="por_a_o">Por año</string>
+    <string name="acercade">Esta aplicación fue creada con fines educativos para la materia de Desarrollo de Aplicaciones Móviles Nativas en el semestre 2026B por los alumnos:</string>
 
     <string-array name="opciones_categoria">
         <item>Cita</item>
@@ -67,4 +68,11 @@
         <item>Por día</item>
         <item>Por mes</item>
     </string-array>
+
+    <string-array name="alumnos">
+        <item>Dávila de Jesús Sandro Armando</item>
+        <item>Ortiz Villaseñor Alexandra</item>
+        <item>Pedroza Villagómez Emir</item>
+    </string-array>
+
 </resources>

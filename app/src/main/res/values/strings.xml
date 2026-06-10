@@ -13,4 +13,32 @@
     <string name="burg_exit">Salir</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Cerrar menu</string>
+
+    <string-array name="opciones_categoria">
+        <item>Cita</item>
+        <item>Junta</item>
+        <item>Entrega de proyecto</item>
+        <item>Examen</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="opciones_status">
+        <item>Pendiente</item>
+        <item>Realizado</item>
+        <item>Aplazado</item>
+    </string-array>
+
+    <string-array name="opciones_recordatorio">
+        <item>Sin recordatorio</item>
+        <item>10 minutos antes</item>
+        <item>1 día antes</item>
+        <item>A la hora del evento</item>
+    </string-array>
+
+    <string-array name="opciones_filtro_consulta">
+        <item>Por rango</item>
+        <item>Por año</item>
+        <item>Por día</item>
+        <item>Por mes</item>
+    </string-array>
 </resources>

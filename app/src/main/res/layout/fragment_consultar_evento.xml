@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Consultar Eventos"
+        android:text="@string/consultar_eventos"
         android:textAlignment="center"
         android:textColor="@color/cian"
         android:textSize="24sp"
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filtrar por:"
+        android:text="@string/filtrar_por"
         android:textColor="@color/white"
         android:textSize="14sp" />
     <Spinner
@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categoría:"
+        android:text="@string/categor_a2"
         android:textColor="@color/white"
         android:textSize="14sp" />
     <Spinner
@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Fecha Inicial"
+            android:hint="@string/fecha_inicial"
             app:boxStrokeColor="@color/cian"
             app:hintTextColor="@color/cian"
             android:layout_marginEnd="8dp">
@@ -75,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Fecha Final"
+            android:hint="@string/fecha_final"
             app:boxStrokeColor="@color/cian"
             app:hintTextColor="@color/cian">
             <com.google.android.material.textfield.TextInputEditText
@@ -93,7 +93,7 @@
         android:id="@+id/btnConsultar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:text="Consultar"
+        android:text="@string/consultar"
         android:textColor="@color/iconos"
         android:textStyle="bold"
         app:backgroundTint="@color/cian"
@@ -104,7 +104,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Buscar descripción..."
+        android:hint="@string/buscar_descripci_n"
         app:startIconDrawable="@android:drawable/ic_menu_search"
         app:startIconTint="@color/cian"
         app:boxStrokeColor="@color/cian"
@@ -123,10 +123,10 @@
         android:orientation="horizontal"
         android:paddingBottom="8dp"
         android:layout_marginBottom="8dp">
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Fecha" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Hora" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Categoría" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Status" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/fecha" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/hora" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/categor_a" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/status" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
     </LinearLayout>
 
     <View

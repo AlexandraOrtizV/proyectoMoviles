@@ -15,90 +15,185 @@
         android:text="@string/consultar_eventos"
         android:textAlignment="center"
         android:textColor="@color/cian"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/filtrar_por"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-    <Spinner
-        android:id="@+id/spinnerTipoConsulta"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/botones"
-        android:layout_marginBottom="12dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/categor_a2"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-    <Spinner
-        android:id="@+id/spinnerCategoriaConsulta"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/botones"
-        android:layout_marginBottom="12dp"/>
-
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/navy"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/botones"
+        app:strokeWidth="1dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/fecha_inicial"
-            app:boxStrokeColor="@color/cian"
-            app:hintTextColor="@color/cian"
-            android:layout_marginEnd="8dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etFechaInicial"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filtrar_por"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"/>
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:focusable="false"
-                android:clickable="true"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:scrollbars="none"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTipoConsulta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="true">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="@string/fecha_final"
-            app:boxStrokeColor="@color/cian"
-            app:hintTextColor="@color/cian">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etFechaFinal"
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/por_rango"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/por_d_a"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/por_mes"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/por_a_o"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/categor_a2"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"/>
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:focusable="false"
-                android:clickable="true"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+                android:scrollbars="none"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupCategoriaConsulta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="true">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnConsultar"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="@string/consultar"
-        android:textColor="@color/iconos"
-        android:textStyle="bold"
-        app:backgroundTint="@color/cian"
-        app:cornerRadius="8dp"
-        android:layout_marginBottom="12dp"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cita"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/junta"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/proyecto"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/examen"
+                        app:chipBackgroundColor="@color/fondo"
+                        android:textColor="@color/white"/>
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fecha_inicial"
+                    app:boxStrokeColor="@color/cian"
+                    app:hintTextColor="@color/cian"
+                    android:layout_marginEnd="8dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaInicial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:focusable="false"
+                        android:clickable="true"
+                        tools:ignore="KeyboardInaccessibleWidget"
+                        android:inputType="none"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fecha_final"
+                    app:boxStrokeColor="@color/cian"
+                    app:hintTextColor="@color/cian">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaFinal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:focusable="false"
+                        android:clickable="true"
+                        tools:ignore="KeyboardInaccessibleWidget"
+                        android:inputType="none"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConsultarFiltro"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="@string/consultar"
+                android:textColor="@color/iconos"
+                android:textStyle="bold"
+                app:backgroundTint="@color/cian"
+                app:cornerRadius="8dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -109,7 +204,7 @@
         app:startIconTint="@color/cian"
         app:boxStrokeColor="@color/cian"
         app:hintTextColor="@color/cian"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="12dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etBusquedaRapida"
             android:layout_width="match_parent"
@@ -122,7 +217,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
         <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/fecha" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
         <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/hora" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>
         <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/categor_a" android:textColor="@color/cian" android:textStyle="bold" android:textSize="12sp"/>

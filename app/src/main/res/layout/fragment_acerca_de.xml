@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/aboutBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AcercaDeFragment">
+    android:background="@drawable/gradient_list"
+    android:padding="24dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fragmento Acerca de..." />
+        android:layout_height="400dp"
+        app:cardBackgroundColor="@color/white"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="56dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Acerca de..."
+                android:textColor="#333333"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/acercade"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="2dp"
+                android:layout_marginBottom="20dp"
+                android:background="#D3D3D3" />
+
+            <TextView
+                android:id="@+id/tvTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.3"
+                android:text="Dávila de Jesús Sandro Armando\nOrtiz Villaseñor Alexandra\nPedroza Villagómez Emir"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

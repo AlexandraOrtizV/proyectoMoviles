@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="@string/crear_evento"
             android:textAlignment="center"
-            android:textColor="@color/cian"
+            android:textColor="@color/botones"
             android:textSize="26sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
@@ -90,8 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/descripci_n"
-                    app:boxStrokeColor="@color/cian"
-                    app:hintTextColor="@color/cian">
+                    app:boxStrokeColor="@color/botones"
+                    app:hintTextColor="@color/botones">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDescripcion"
                         android:layout_width="match_parent"
@@ -132,8 +132,8 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="@string/fecha_dd_mm_aaaa"
-                        app:boxStrokeColor="@color/cian"
-                        app:hintTextColor="@color/cian"
+                        app:boxStrokeColor="@color/botones"
+                        app:hintTextColor="@color/botones"
                         android:layout_marginEnd="8dp">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFecha"
@@ -152,8 +152,8 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="@string/hora"
-                        app:boxStrokeColor="@color/cian"
-                        app:hintTextColor="@color/cian">
+                        app:boxStrokeColor="@color/botones"
+                        app:hintTextColor="@color/botones">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHora"
                             android:layout_width="match_parent"
@@ -171,11 +171,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/ubicaci_n"
-                    app:boxStrokeColor="@color/cian"
-                    app:hintTextColor="@color/cian"
+                    app:boxStrokeColor="@color/botones"
+                    app:hintTextColor="@color/botones"
                     app:endIconMode="custom"
                     app:endIconDrawable="@android:drawable/ic_dialog_map"
-                    app:endIconTint="@color/cian">
+                    app:endIconTint="@color/botones">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etUbicacion"
                         android:layout_width="match_parent"
@@ -210,11 +210,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/contacto"
-                    app:boxStrokeColor="@color/cian"
-                    app:hintTextColor="@color/cian"
+                    app:boxStrokeColor="@color/botones"
+                    app:hintTextColor="@color/botones"
                     app:endIconMode="custom"
                     app:endIconDrawable="@android:drawable/ic_menu_myplaces"
-                    app:endIconTint="@color/cian"
+                    app:endIconTint="@color/botones"
                     android:layout_marginBottom="16dp">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etContacto"
@@ -282,7 +282,7 @@
             android:textColor="@color/iconos"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/cian"
+            app:backgroundTint="@color/botones"
             app:cornerRadius="8dp" />
 
     </LinearLayout>

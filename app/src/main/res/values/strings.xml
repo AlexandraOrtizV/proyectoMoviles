@@ -35,6 +35,18 @@
     <string name="junta">Junta</string>
     <string name="proyecto">Proyecto</string>
     <string name="examen">Examen</string>
+    <string name="calendario_titulo">Calendario de Eventos</string>
+    <string name="eventos_para_hoy">Eventos para el día: %s</string>
+    <string name="no_hay_eventos_fecha">No hay eventos para esta fecha</string>
+    <string name="respaldo_titulo">Respaldo en Dropbox</string>
+    <string name="restaurar_titulo">Restaurar desde Dropbox</string>
+    <string name="vincular_cuenta">Vincular cuenta de Dropbox</string>
+    <string name="subir_respaldo">Subir Respaldo</string>
+    <string name="descargar_respaldo">Descargar y Restaurar</string>
+    <string name="estado_respaldo">Estado del respaldo: %s</string>
+    <string name="ultimo_respaldo">Último respaldo: %s</string>
+    <string name="nunca">Nunca</string>
+    <string name="advertencia_restaurar">Advertencia: Al restaurar se perderán los datos locales actuales.</string>
 
     <string-array name="opciones_categoria">
         <item>Cita</item>

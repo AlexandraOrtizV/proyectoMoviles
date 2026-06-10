@@ -1,7 +1,12 @@
 package com.example.proyecto
 
 import android.os.Bundle
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -36,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             cambiarFragmento(InicioFragment())
         }
+
+        // Solicitar permisos de notificación para Android 13+
+        solicitarPermisosNotificacion()
 
         // 5. Configurar menú hamburguesa (Navigation Drawer)
         navView.setNavigationItemSelectedListener { item ->
@@ -81,5 +89,19 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragmento)
             .commit()
+    }
+
+    private fun solicitarPermisosNotificacion() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+            }
+        }
     }
 }

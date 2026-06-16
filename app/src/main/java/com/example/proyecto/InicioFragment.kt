@@ -1,10 +1,14 @@
 package com.example.proyecto
 
+import android.content.ContentValues
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -16,30 +20,105 @@ class InicioFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflamos la vista del fragmento
         return inflater.inflate(R.layout.fragment_inicio, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1. Encontrar el TextView en la vista inflada
+        // 1. Referencias de la vista contenedora principal
         val tvTituloHoy = view.findViewById<TextView>(R.id.tvTituloHoy)
+        val tvVacioHoy = view.findViewById<TextView>(R.id.tvVacioHoy)
+        val tvVacioProximos = view.findViewById<TextView>(R.id.tvVacioProximos)
 
-        // 2. Obtener la fecha actual del sistema
-        val fechaActual = LocalDate.now()
+        val eventosHoyLayout = view.findViewById<LinearLayout>(R.id.eventosHoyLayout)
+        val eventosProxLayout = view.findViewById<LinearLayout>(R.id.eventosProxLayout)
 
-        // 3. Crear el formateador en español: "EEEE dd 'de' MMMM 'del' yyyy"
-        // EEEE = Nombre del día completo (Martes)
-        // dd = Día en dos dígitos (09)
-        // MMMM = Nombre del mes completo (junio)
-        // yyyy = Año (2026)
-        val formateador = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "MX"))
+        // 2. Fechas del sistema (Formato de base de datos: YYYY-MM-DD)
+        val hoy = LocalDate.now()
+        val formatoBD = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        // 4. Formatear la fecha y capitalizar la primera letra (opcional, para que quede "Martes" y no "martes")
-        val fechaFormateada = fechaActual.format(formateador).replaceFirstChar { it.uppercase() }
+        val stringHoy = hoy.format(formatoBD)
 
-        // 5. Asignar el texto final combinándolo con la palabra "Hoy, "
-        tvTituloHoy.text = "Hoy, $fechaFormateada"
+        // Calcular los próximos 4 días
+        val proximos4DiasStrings = mutableListOf<String>()
+        for (i in 1..4) {
+            proximos4DiasStrings.add(hoy.plusDays(i.toLong()).format(formatoBD))
+        }
+
+        // Setear título de Hoy
+        val formateadorEspanol = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "MX"))
+        tvTituloHoy.text = "Hoy, " + hoy.format(formateadorEspanol).replaceFirstChar { it.uppercase() }
+
+        // 3. Consultar Base de Datos
+        val helper = ConexionSQLiteHelper(requireContext())
+
+        // Todas las fechas que nos importan juntas (Hoy + los 4 días siguientes)
+        val todasLasFechas = listOf(stringHoy) + proximos4DiasStrings
+        val eventosBD = helper.obtenerEventosPorFechas(todasLasFechas)
+
+        // Separar eventos locales de la lista devuelta
+        val listaHoy = eventosBD.filter { it.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA) == stringHoy }
+        val listaProximos = eventosBD.filter { it.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA) != stringHoy }
+
+        // 4. Pintar Eventos de Hoy
+        if (listaHoy.isEmpty()) {
+            tvVacioHoy.visibility = View.VISIBLE
+        } else {
+            tvVacioHoy.visibility = View.GONE
+            val inflaterLayout = LayoutInflater.from(requireContext())
+
+            for (evento in listaHoy) {
+                val cardView = inflaterLayout.inflate(R.layout.item_evento_hoy, eventosHoyLayout, false)
+
+                // Mapear campos del card
+                cardView.findViewById<TextView>(R.id.tvHora).text = "Hora: ${evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_HORA)}"
+                cardView.findViewById<TextView>(R.id.tvResponsable).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CONTACTO)
+                cardView.findViewById<TextView>(R.id.tvDireccion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_UBI)
+                cardView.findViewById<TextView>(R.id.tvDescripcion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_DESCRIP)
+
+                // Obtener texto desde Enum
+                val catEnum = Categoria.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CAT))
+                val estEnum = Status.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_ESTATUS))
+
+                cardView.findViewById<TextView>(R.id.tvCategoria).text = catEnum.getTexto(requireContext())
+                cardView.findViewById<TextView>(R.id.tvEstatus).text = estEnum.getTexto(requireContext())
+
+                eventosHoyLayout.addView(cardView)
+            }
+        }
+
+        // 5. Pintar Eventos Próximos
+        if (listaProximos.isEmpty()) {
+            tvVacioProximos.visibility = View.VISIBLE
+        } else {
+            tvVacioProximos.visibility = View.GONE
+            val inflaterLayout = LayoutInflater.from(requireContext())
+
+            for (evento in listaProximos) {
+                val cardView = inflaterLayout.inflate(R.layout.item_evento_proximo, eventosProxLayout, false)
+
+                // Formatear la fecha bonita para mostrar en este card (ej: Viernes 12 de junio)
+                val fechaOriginal = LocalDate.parse(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA), formatoBD)
+                val formatoBonitoCard = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM", Locale("es", "MX"))
+
+                cardView.findViewById<TextView>(R.id.tvFechaEvento).text = fechaOriginal.format(formatoBonitoCard).replaceFirstChar { it.uppercase() }
+
+                // Mapear campos restantes
+                cardView.findViewById<TextView>(R.id.tvHora).text = "Hora: ${evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_HORA)}"
+                cardView.findViewById<TextView>(R.id.tvResponsable).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CONTACTO)
+                cardView.findViewById<TextView>(R.id.tvDireccion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_UBI)
+                cardView.findViewById<TextView>(R.id.tvDescripcion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_DESCRIP)
+
+                val catEnum = Categoria.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CAT))
+                val estEnum = Status.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_ESTATUS))
+
+                cardView.findViewById<TextView>(R.id.tvCategoria).text = catEnum.getTexto(requireContext())
+                cardView.findViewById<TextView>(R.id.tvEstatus).text = estEnum.getTexto(requireContext())
+
+                eventosProxLayout.addView(cardView)
+            }
+        }
     }
 }

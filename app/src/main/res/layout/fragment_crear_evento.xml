@@ -52,37 +52,40 @@
                     android:id="@+id/chipGroupCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:singleSelection="true"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/cita"
-                        app:chipBackgroundColor="@color/fondo"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/fondo" />
+
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/junta"
-                        app:chipBackgroundColor="@color/fondo"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/fondo" />
+
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/proyecto"
-                        app:chipBackgroundColor="@color/fondo"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/fondo" />
+
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/examen"
-                        app:chipBackgroundColor="@color/fondo"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/fondo" />
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.textfield.TextInputLayout

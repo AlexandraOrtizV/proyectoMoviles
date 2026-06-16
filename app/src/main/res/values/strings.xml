@@ -35,6 +35,10 @@
     <string name="junta">Junta</string>
     <string name="proyecto">Proyecto</string>
     <string name="examen">Examen</string>
+    <string name="otro">Otro</string>
+    <string name="pendiente">Pendiente</string>
+    <string name="realizado">Realizado</string>
+    <string name="aplazado">Aplazado</string>
     <string name="por_rango">Por rango</string>
     <string name="por_d_a">Por día</string>
     <string name="por_mes">Por mes</string>

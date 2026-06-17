@@ -10,23 +10,23 @@ class ConexionSQLiteHelper(private val context: Context) :
 
     companion object {
         private const val DATABASE_VERSION = 4
-        private const val DATABASE_NAME = "Eventos.db" // O el nombre que prefieras
+        private const val DATABASE_NAME = "Eventos.db"
 
         // TABLA EVENTO
         const val TABLA_EVENTO = "evento"
         const val CAMPO_EV_ID = "id"
-        const val CAMPO_EV_CAT = "cat" //------
+        const val CAMPO_EV_CAT = "cat"
         const val CAMPO_EV_FECHA = "fecha"
         const val CAMPO_EV_HORA = "hora"
         const val CAMPO_EV_UBI = "ubi"
         const val CAMPO_EV_CONTACTO = "contacto"
-        const val CAMPO_EV_ESTATUS = "estatus" //-----
+        const val CAMPO_EV_ESTATUS = "estatus"
         const val CAMPO_EV_RECORDATORIO = "recordatorio"
         const val CAMPO_EV_DESCRIP = "descrip"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        // Crear Tabla Evento (Con llaves foráneas)
+        // Crear Tabla Evento
         val crearTablaEvento = ("CREATE TABLE $TABLA_EVENTO ("
                 + "$CAMPO_EV_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "$CAMPO_EV_CAT TEXT, "
@@ -40,6 +40,7 @@ class ConexionSQLiteHelper(private val context: Context) :
 
         db?.execSQL(crearTablaEvento)
 
+        // Inyectar datos iniciales de prueba
         inyectarDatosPrueba(db)
     }
 
@@ -49,7 +50,6 @@ class ConexionSQLiteHelper(private val context: Context) :
     }
 
     private fun inyectarDatosPrueba(db: SQLiteDatabase?) {
-        // Creamos una lista con eventos ficticios usando tus Enums
         val eventosPrueba = listOf(
             ContentValues().apply {
                 put(CAMPO_EV_CAT, Categoria.EXAMEN.name)
@@ -93,25 +93,24 @@ class ConexionSQLiteHelper(private val context: Context) :
             }
         )
 
-        // Insertamos cada uno en la BD
         for (evento in eventosPrueba) {
             db?.insert(TABLA_EVENTO, null, evento)
         }
     }
 
-    // Método de inserción aceptando los Enums directamente de forma fuertemente tipada
+    // Método para guardar un evento nuevo
     fun insertarEvento(
         cat: Categoria, fecha: String, hora: String, ubi: String,
         contacto: String, estatus: Status, recordatorio: String, descrip: String
     ): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(CAMPO_EV_CAT, cat.name)         // Guarda el string del enum (ej: "CITA")
+            put(CAMPO_EV_CAT, cat.name)
             put(CAMPO_EV_FECHA, fecha)
             put(CAMPO_EV_HORA, hora)
             put(CAMPO_EV_UBI, ubi)
             put(CAMPO_EV_CONTACTO, contacto)
-            put(CAMPO_EV_ESTATUS, estatus.name) // Guarda el string del enum (ej: "PENDIENTE")
+            put(CAMPO_EV_ESTATUS, estatus.name)
             put(CAMPO_EV_RECORDATORIO, recordatorio)
             put(CAMPO_EV_DESCRIP, descrip)
         }
@@ -120,12 +119,34 @@ class ConexionSQLiteHelper(private val context: Context) :
         return resultado
     }
 
-    //Función para la vista de inicio
+    // Función para actualizar un evento existente (desde el Modal)
+    fun actualizarEvento(id: Int, estatus: Status, contacto: String, ubi: String): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(CAMPO_EV_ESTATUS, estatus.name)
+            put(CAMPO_EV_CONTACTO, contacto)
+            put(CAMPO_EV_UBI, ubi)
+        }
+        val resultado = db.update(TABLA_EVENTO, values, "$CAMPO_EV_ID = ?", arrayOf(id.toString()))
+        db.close()
+        return resultado > 0
+    }
+
+    // Función para eliminar un evento (desde el Modal)
+    fun eliminarEvento(id: Int): Boolean {
+        val db = this.writableDatabase
+        val resultado = db.delete(TABLA_EVENTO, "$CAMPO_EV_ID = ?", arrayOf(id.toString()))
+        db.close()
+        return resultado > 0
+    }
+
+    // Función para la vista de inicio (Calendario principal)
     fun obtenerEventosPorFechas(fechas: List<String>): List<ContentValues> {
         val listaEventos = mutableListOf<ContentValues>()
         val db = this.readableDatabase
 
-        // Generamos los signos de interrogación para el query 'IN (?, ?, ...)'
+        if (fechas.isEmpty()) return listaEventos
+
         val args = fechas.toTypedArray()
         val signos = fechas.joinToString(",") { "?" }
 
@@ -151,5 +172,83 @@ class ConexionSQLiteHelper(private val context: Context) :
         cursor.close()
         db.close()
         return listaEventos
+    }
+
+    // Función para el buscador inteligente de la pantalla de Consultas
+    fun consultarEventosAvanzado(
+        tipoConsulta: String,
+        fechaIni: String,
+        fechaFin: String,
+        categoria: String?,
+        busqueda: String
+    ): List<ContentValues> {
+        val lista = mutableListOf<ContentValues>()
+        val db = this.readableDatabase
+
+        var query = "SELECT * FROM $TABLA_EVENTO WHERE 1=1 "
+        val args = mutableListOf<String>()
+
+        when (tipoConsulta) {
+            "RANGO" -> {
+                if (fechaIni.isNotEmpty() && fechaFin.isNotEmpty()) {
+                    query += "AND $CAMPO_EV_FECHA BETWEEN ? AND ? "
+                    args.add(fechaIni)
+                    args.add(fechaFin)
+                }
+            }
+            "DIA" -> {
+                if (fechaIni.isNotEmpty()) {
+                    query += "AND $CAMPO_EV_FECHA = ? "
+                    args.add(fechaIni)
+                }
+            }
+            "MES" -> {
+                if (fechaIni.isNotEmpty() && fechaIni.length >= 7) {
+                    val mesAnio = fechaIni.substring(0, 7)
+                    query += "AND $CAMPO_EV_FECHA LIKE ? "
+                    args.add("$mesAnio%")
+                }
+            }
+            "ANIO" -> {
+                if (fechaIni.isNotEmpty() && fechaIni.length >= 4) {
+                    val anio = fechaIni.substring(0, 4)
+                    query += "AND $CAMPO_EV_FECHA LIKE ? "
+                    args.add("$anio%")
+                }
+            }
+        }
+
+        if (!categoria.isNullOrEmpty()) {
+            query += "AND $CAMPO_EV_CAT = ? "
+            args.add(categoria.uppercase())
+        }
+
+        if (busqueda.isNotEmpty()) {
+            query += "AND $CAMPO_EV_DESCRIP LIKE ? "
+            args.add("%$busqueda%")
+        }
+
+        query += " ORDER BY $CAMPO_EV_FECHA ASC, $CAMPO_EV_HORA ASC"
+
+        val cursor = db.rawQuery(query, args.toTypedArray())
+        if (cursor.moveToFirst()) {
+            do {
+                val cv = ContentValues().apply {
+                    put(CAMPO_EV_ID, cursor.getInt(cursor.getColumnIndexOrThrow(CAMPO_EV_ID)))
+                    put(CAMPO_EV_CAT, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_CAT)))
+                    put(CAMPO_EV_FECHA, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_FECHA)))
+                    put(CAMPO_EV_HORA, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_HORA)))
+                    put(CAMPO_EV_UBI, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_UBI)))
+                    put(CAMPO_EV_CONTACTO, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_CONTACTO)))
+                    put(CAMPO_EV_ESTATUS, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_ESTATUS)))
+                    put(CAMPO_EV_RECORDATORIO, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_RECORDATORIO)))
+                    put(CAMPO_EV_DESCRIP, cursor.getString(cursor.getColumnIndexOrThrow(CAMPO_EV_DESCRIP)))
+                }
+                lista.add(cv)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return lista
     }
 }

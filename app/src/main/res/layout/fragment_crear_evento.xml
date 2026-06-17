@@ -17,21 +17,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="@string/crear_evento"
             android:textAlignment="center"
-            android:textColor="@color/botones"
+            android:textColor="@color/white"
             android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/navy"
+            app:cardBackgroundColor="@color/botones"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
-            app:strokeColor="@color/botones"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -43,16 +42,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/categor_a"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp"/>
+                    android:textColor="@color/navy"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
@@ -61,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/cita"
                         android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/fondo" />
+                        app:chipBackgroundColor="@color/navy" />
 
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
@@ -69,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/junta"
                         android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/fondo" />
+                        app:chipBackgroundColor="@color/navy" />
 
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
@@ -77,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/proyecto"
                         android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/fondo" />
+                        app:chipBackgroundColor="@color/navy" />
 
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Choice"
@@ -85,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/examen"
                         android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/fondo" />
+                        app:chipBackgroundColor="@color/navy" />
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -95,14 +94,15 @@
                     android:hint="@string/descripci_n"
                     app:boxStrokeColor="@color/botones"
                     app:hintTextColor="@color/botones">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDescripcion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:gravity="top"
                         android:inputType="textMultiLine"
                         android:lines="2"
-                        android:gravity="top"/>
+                        android:textColor="@color/navy" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -111,10 +111,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/navy"
+            app:cardBackgroundColor="@color/botones"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
-            app:strokeColor="@color/botones"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -135,14 +134,14 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="@string/fecha_dd_mm_aaaa"
-                        app:boxStrokeColor="@color/botones"
-                        app:hintTextColor="@color/botones"
+                        app:boxStrokeColor="@color/navy"
+                        app:hintTextColor="@color/navy"
                         android:layout_marginEnd="8dp">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFecha"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="@color/navy"
                             android:focusable="false"
                             android:clickable="true"
                             tools:ignore="KeyboardInaccessibleWidget"
@@ -155,17 +154,18 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="@string/hora"
-                        app:boxStrokeColor="@color/botones"
-                        app:hintTextColor="@color/botones">
+                        app:boxStrokeColor="@color/navy"
+                        app:hintTextColor="@color/navy">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHora"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:focusable="false"
                             android:clickable="true"
-                            tools:ignore="KeyboardInaccessibleWidget"
-                            android:inputType="none"/>
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:textColor="@color/navy"
+                            tools:ignore="KeyboardInaccessibleWidget" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -179,15 +179,16 @@
                     app:endIconMode="custom"
                     app:endIconDrawable="@android:drawable/ic_dialog_map"
                     app:endIconTint="@color/botones">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etUbicacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:focusable="false"
                         android:clickable="true"
-                        tools:ignore="KeyboardInaccessibleWidget"
-                        android:inputType="none"/>
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textColor="@color/navy"
+                        tools:ignore="KeyboardInaccessibleWidget" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -196,10 +197,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="@color/navy"
+            app:cardBackgroundColor="@color/botones"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
-            app:strokeColor="@color/botones"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -212,22 +212,23 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:hint="@string/contacto"
-                    app:boxStrokeColor="@color/botones"
-                    app:hintTextColor="@color/botones"
-                    app:endIconMode="custom"
+                    app:boxStrokeColor="@color/navy"
                     app:endIconDrawable="@android:drawable/ic_menu_myplaces"
+                    app:endIconMode="custom"
                     app:endIconTint="@color/botones"
-                    android:layout_marginBottom="16dp">
+                    app:hintTextColor="@color/botones">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etContacto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:focusable="false"
                         android:clickable="true"
-                        tools:ignore="KeyboardInaccessibleWidget"
-                        android:inputType="none"/>
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textColor="@color/navy"
+                        tools:ignore="KeyboardInaccessibleWidget" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -241,18 +242,21 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginEnd="8dp">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/status"
-                            android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textColor="@color/navy"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
                         <Spinner
                             android:id="@+id/spinnerStatus"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:entries="@array/opciones_status"
-                            android:backgroundTint="@color/botones"/>
+                            android:backgroundTint="@color/navy"
+                            android:entries="@array/opciones_status" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -260,18 +264,21 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/recordatorio"
-                            android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textColor="@color/navy"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
                         <Spinner
                             android:id="@+id/spinnerRecordatorio"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:entries="@array/opciones_recordatorio"
-                            android:backgroundTint="@color/botones"/>
+                            android:backgroundTint="@color/navy"
+                            android:entries="@array/opciones_recordatorio" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

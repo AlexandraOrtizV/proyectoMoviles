@@ -13,29 +13,29 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="@string/respaldo_titulo"
         android:textAlignment="center"
-        android:textColor="@color/cian"
+        android:textColor="@color/white"
         android:textSize="26sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@android:drawable/ic_menu_upload"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/respaldo_titulo"
-        app:tint="@color/cian"
-        android:layout_marginBottom="32dp"/>
+        android:src="@android:drawable/ic_menu_upload"
+        app:tint="@color/white" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="@color/navy"
+        app:cardBackgroundColor="@color/botones"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
-        app:strokeColor="@color/botones"
+        app:strokeColor="@color/navy"
         app:strokeWidth="1dp">
 
         <LinearLayout
@@ -48,10 +48,11 @@
                 android:id="@+id/tvEstadoRespaldo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/ultimo_respaldo"
-                android:textColor="@color/white"
+                android:textColor="@color/navy"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvFechaRespaldo"
@@ -67,20 +68,23 @@
         android:id="@+id/btnVincular"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/vincular_cuenta"
-        android:textColor="@color/iconos"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/botones"
+        android:text="@string/vincular_cuenta"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/navy"
         app:cornerRadius="8dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubir"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/subir_respaldo"
-        android:textColor="@color/iconos"
         android:enabled="false"
-        app:backgroundTint="@color/cian"
+        android:text="@string/subir_respaldo"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:backgroundTint="@color/navy"
         app:cornerRadius="8dp" />
 
 </LinearLayout>

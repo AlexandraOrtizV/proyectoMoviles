@@ -48,8 +48,10 @@ class InicioFragment : Fragment() {
         }
 
         // Setear título de Hoy
-        val formateadorEspanol = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "MX"))
-        tvTituloHoy.text = "Hoy, " + hoy.format(formateadorEspanol).replaceFirstChar { it.uppercase() }
+        val formateadorEspanol =
+            DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "MX"))
+        tvTituloHoy.text =
+            "Hoy, " + hoy.format(formateadorEspanol).replaceFirstChar { it.uppercase() }
 
         // 3. Consultar Base de Datos
         val helper = ConexionSQLiteHelper(requireContext())
@@ -59,8 +61,10 @@ class InicioFragment : Fragment() {
         val eventosBD = helper.obtenerEventosPorFechas(todasLasFechas)
 
         // Separar eventos locales de la lista devuelta
-        val listaHoy = eventosBD.filter { it.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA) == stringHoy }
-        val listaProximos = eventosBD.filter { it.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA) != stringHoy }
+        val listaHoy =
+            eventosBD.filter { it.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA) == stringHoy }
+        val listaProximos =
+            eventosBD.filter { it.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA) != stringHoy }
 
         // 4. Pintar Eventos de Hoy
         if (listaHoy.isEmpty()) {
@@ -70,26 +74,55 @@ class InicioFragment : Fragment() {
             val inflaterLayout = LayoutInflater.from(requireContext())
 
             for (evento in listaHoy) {
-                val cardView = inflaterLayout.inflate(R.layout.item_evento_hoy, eventosHoyLayout, false)
+                val cardView =
+                    inflaterLayout.inflate(R.layout.item_evento_hoy, eventosHoyLayout, false)
 
-                // Mapear campos del card
-                cardView.findViewById<TextView>(R.id.tvHora).text = "Hora: ${evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_HORA)}"
-                cardView.findViewById<TextView>(R.id.tvResponsable).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CONTACTO)
-                cardView.findViewById<TextView>(R.id.tvDireccion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_UBI)
-                cardView.findViewById<TextView>(R.id.tvDescripcion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_DESCRIP)
+                // Mapear campos normales...
+                cardView.findViewById<TextView>(R.id.tvHora).text =
+                    "Hora: ${evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_HORA)}"
+                cardView.findViewById<TextView>(R.id.tvResponsable).text =
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CONTACTO)
+                cardView.findViewById<TextView>(R.id.tvDireccion).text =
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_UBI)
+                cardView.findViewById<TextView>(R.id.tvDescripcion).text =
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_DESCRIP)
 
-                // Obtener texto desde Enum
-                val catEnum = Categoria.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CAT))
-                val estEnum = Status.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_ESTATUS))
+                // Obtener Enums
+                val catEnum =
+                    Categoria.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CAT))
+                val estEnum =
+                    Status.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_ESTATUS))
 
-                cardView.findViewById<TextView>(R.id.tvCategoria).text = catEnum.getTexto(requireContext())
-                cardView.findViewById<TextView>(R.id.tvEstatus).text = estEnum.getTexto(requireContext())
+                cardView.findViewById<TextView>(R.id.tvCategoria).text =
+                    catEnum.getTexto(requireContext())
+
+                // 🔥 CAMBIO DINÁMICO DE COLOR PARA EL ESTATUS 🔥
+                val tvEstatusCard = cardView.findViewById<TextView>(R.id.tvEstatus)
+                tvEstatusCard.text = estEnum.getTexto(requireContext())
+
+                val colorEstatus = when (estEnum) {
+                    Status.PENDIENTE -> androidx.core.content.ContextCompat.getColor(
+                        requireContext(),
+                        R.color.vino
+                    )
+
+                    Status.REALIZADO -> androidx.core.content.ContextCompat.getColor(
+                        requireContext(),
+                        R.color.verde_azulado
+                    )
+
+                    Status.APLAZADO -> androidx.core.content.ContextCompat.getColor(
+                        requireContext(),
+                        R.color.verde_amarillo
+                    )
+                }
+                tvEstatusCard.setTextColor(colorEstatus)
 
                 eventosHoyLayout.addView(cardView)
             }
         }
 
-        // 5. Pintar Eventos Próximos
+// 5. Pintar Eventos Próximos
         if (listaProximos.isEmpty()) {
             tvVacioProximos.visibility = View.VISIBLE
         } else {
@@ -97,25 +130,57 @@ class InicioFragment : Fragment() {
             val inflaterLayout = LayoutInflater.from(requireContext())
 
             for (evento in listaProximos) {
-                val cardView = inflaterLayout.inflate(R.layout.item_evento_proximo, eventosProxLayout, false)
+                val cardView =
+                    inflaterLayout.inflate(R.layout.item_evento_proximo, eventosProxLayout, false)
 
-                // Formatear la fecha bonita para mostrar en este card (ej: Viernes 12 de junio)
-                val fechaOriginal = LocalDate.parse(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA), formatoBD)
-                val formatoBonitoCard = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM", Locale("es", "MX"))
+                // Mapear campos de fecha y normales...
+                val fechaOriginal = LocalDate.parse(
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_FECHA),
+                    formatoBD
+                )
+                val formatoBonitoCard =
+                    DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM", Locale("es", "MX"))
+                cardView.findViewById<TextView>(R.id.tvFechaEvento).text =
+                    fechaOriginal.format(formatoBonitoCard).replaceFirstChar { it.uppercase() }
 
-                cardView.findViewById<TextView>(R.id.tvFechaEvento).text = fechaOriginal.format(formatoBonitoCard).replaceFirstChar { it.uppercase() }
+                cardView.findViewById<TextView>(R.id.tvHora).text =
+                    "Hora: ${evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_HORA)}"
+                cardView.findViewById<TextView>(R.id.tvResponsable).text =
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CONTACTO)
+                cardView.findViewById<TextView>(R.id.tvDireccion).text =
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_UBI)
+                cardView.findViewById<TextView>(R.id.tvDescripcion).text =
+                    evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_DESCRIP)
 
-                // Mapear campos restantes
-                cardView.findViewById<TextView>(R.id.tvHora).text = "Hora: ${evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_HORA)}"
-                cardView.findViewById<TextView>(R.id.tvResponsable).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CONTACTO)
-                cardView.findViewById<TextView>(R.id.tvDireccion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_UBI)
-                cardView.findViewById<TextView>(R.id.tvDescripcion).text = evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_DESCRIP)
+                val catEnum =
+                    Categoria.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CAT))
+                val estEnum =
+                    Status.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_ESTATUS))
 
-                val catEnum = Categoria.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_CAT))
-                val estEnum = Status.valueOf(evento.getAsString(ConexionSQLiteHelper.CAMPO_EV_ESTATUS))
+                cardView.findViewById<TextView>(R.id.tvCategoria).text =
+                    catEnum.getTexto(requireContext())
 
-                cardView.findViewById<TextView>(R.id.tvCategoria).text = catEnum.getTexto(requireContext())
-                cardView.findViewById<TextView>(R.id.tvEstatus).text = estEnum.getTexto(requireContext())
+                // 🔥 CAMBIO DINÁMICO DE COLOR PARA EL ESTATUS 🔥
+                val tvEstatusCard = cardView.findViewById<TextView>(R.id.tvEstatus)
+                tvEstatusCard.text = estEnum.getTexto(requireContext())
+
+                val colorEstatus = when (estEnum) {
+                    Status.PENDIENTE -> androidx.core.content.ContextCompat.getColor(
+                        requireContext(),
+                        R.color.vino
+                    )
+
+                    Status.REALIZADO -> androidx.core.content.ContextCompat.getColor(
+                        requireContext(),
+                        R.color.verde_azulado
+                    )
+
+                    Status.APLAZADO -> androidx.core.content.ContextCompat.getColor(
+                        requireContext(),
+                        R.color.verde_amarillo
+                    )
+                }
+                tvEstatusCard.setTextColor(colorEstatus)
 
                 eventosProxLayout.addView(cardView)
             }

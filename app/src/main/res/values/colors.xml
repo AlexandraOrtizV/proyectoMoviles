@@ -3,11 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cian">#09D8C7</color>
-    <color name="red">#561c24</color>
+    <color name="red">#FF0000</color>
+    <color name="vino">#561c24</color>
     <color name="yellow">#f4b315</color>
     <color name="fondo">#29383B</color>
     <color name="botones">#86A39E</color>
     <color name="navy">#133332</color>
     <color name="iconos">#0B2B26</color>
+    <color name="verde_amarillo">#C3CCB9</color>
+    <color name="verde_pasto">#606E6F</color>
+    <color name="verde_azulado">#004B62</color>
 
 </resources>

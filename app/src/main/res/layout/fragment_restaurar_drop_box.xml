@@ -13,29 +13,29 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="@string/restaurar_titulo"
         android:textAlignment="center"
-        android:textColor="@color/cian"
+        android:textColor="@color/white"
         android:textSize="26sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@android:drawable/ic_menu_save"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/restaurar_titulo"
-        app:tint="@color/cian"
-        android:layout_marginBottom="32dp"/>
+        android:src="@android:drawable/ic_menu_save"
+        app:tint="@color/white" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="#44FF0000"
+        app:cardBackgroundColor="@color/verde_amarillo"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
-        app:strokeColor="#FFFF0000"
+        app:strokeColor="@color/vino"
         app:strokeWidth="1dp">
 
         <LinearLayout
@@ -48,9 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/advertencia_restaurar"
-                android:textColor="@color/white"
+                android:textColor="@color/vino"
                 android:textSize="14sp"
-                android:textStyle="italic"
+                android:textStyle="bold"
                 android:gravity="center"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -60,9 +60,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="@string/vincular_cuenta"
-        android:textColor="@color/iconos"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/botones"
+        app:backgroundTint="@color/navy"
         app:cornerRadius="8dp" />
 
     <com.google.android.material.button.MaterialButton
@@ -70,9 +71,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="@string/descargar_respaldo"
-        android:textColor="@color/iconos"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:enabled="false"
-        app:backgroundTint="@color/cian"
+        app:backgroundTint="@color/navy"
         app:cornerRadius="8dp" />
 
 </LinearLayout>

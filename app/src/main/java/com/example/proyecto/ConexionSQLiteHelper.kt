@@ -9,7 +9,7 @@ class ConexionSQLiteHelper(private val context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 4
         private const val DATABASE_NAME = "Eventos.db" // O el nombre que prefieras
 
         // TABLA EVENTO
@@ -62,14 +62,14 @@ class ConexionSQLiteHelper(private val context: Context) :
                 put(CAMPO_EV_DESCRIP, "Examen parcial teórico de Sistemas.")
             },
             ContentValues().apply {
-                put(CAMPO_EV_CAT, Categoria.EXAMEN.name)
-                put(CAMPO_EV_FECHA, "2026-06-22")
+                put(CAMPO_EV_CAT, Categoria.CITA.name)
+                put(CAMPO_EV_FECHA, "2026-06-18")
                 put(CAMPO_EV_HORA, "10:00")
-                put(CAMPO_EV_UBI, "Salón de clases / Edificio 1")
-                put(CAMPO_EV_CONTACTO, "Prof. Martínez")
-                put(CAMPO_EV_ESTATUS, Status.PENDIENTE.name)
+                put(CAMPO_EV_UBI, "Televisión de la Sala")
+                put(CAMPO_EV_CONTACTO, "Armando Dávila")
+                put(CAMPO_EV_ESTATUS, Status.APLAZADO.name)
                 put(CAMPO_EV_RECORDATORIO, "1 día antes")
-                put(CAMPO_EV_DESCRIP, "Examen parcial teórico de Sistemas.")
+                put(CAMPO_EV_DESCRIP, "Partido México vs Korea")
             },
             ContentValues().apply {
                 put(CAMPO_EV_CAT, Categoria.JUNTA.name)

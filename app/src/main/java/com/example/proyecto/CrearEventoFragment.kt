@@ -1,35 +1,188 @@
 package com.example.proyecto
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
+import java.util.Calendar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CrearEventoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CrearEventoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    // Lanzador para abrir la agenda de contactos nativa
+    private val pickContactLauncher = registerForActivityResult(ActivityResultContracts.PickContact()) { uri ->
+        uri?.let { leerNombreContacto(it) }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_crear_evento, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 1. Vinculación de todos los componentes visuales del XML
+        val chipGroupCategoria = view.findViewById<ChipGroup>(R.id.chipGroupCategoria)
+        val etDescripcion = view.findViewById<TextInputEditText>(R.id.etDescripcion)
+        val etFecha = view.findViewById<TextInputEditText>(R.id.etFecha)
+        val etHora = view.findViewById<TextInputEditText>(R.id.etHora)
+        val etUbicacion = view.findViewById<TextInputEditText>(R.id.etUbicacion)
+        val etContacto = view.findViewById<TextInputEditText>(R.id.etContacto)
+        val spinnerStatus = view.findViewById<Spinner>(R.id.spinnerStatus)
+        val spinnerRecordatorio = view.findViewById<Spinner>(R.id.spinnerRecordatorio)
+        val btnGuardar = view.findViewById<MaterialButton>(R.id.btnGuardar)
+
+        // 2. Lógica para cambiar de color los chips visualmente (Confirmación para el usuario)
+        chipGroupCategoria.setOnCheckedChangeListener { group, checkedId ->
+            for (i in 0 until group.childCount) {
+                val chip = group.getChildAt(i) as Chip
+                if (chip.id == checkedId) {
+                    // Pintamos de tu color "botones" el que acaba de seleccionar
+                    chip.setChipBackgroundColorResource(R.color.botones)
+                } else {
+                    // Los demás regresan a color "navy"
+                    chip.setChipBackgroundColorResource(R.color.navy)
+                }
+            }
+        }
+
+        // 3. Evento para abrir la agenda al presionar el campo de Contacto
+        etContacto.setOnClickListener {
+            pickContactLauncher.launch(null)
+        }
+
+        // 4. Evento para abrir el selector de fecha (Calendario)
+        etFecha.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val anio = calendario.get(Calendar.YEAR)
+            val mes = calendario.get(Calendar.MONTH)
+            val dia = calendario.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+                val fechaFormateada = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                etFecha.setText(fechaFormateada)
+            }, anio, mes, dia)
+            datePickerDialog.show()
+        }
+
+        // 5. Evento para abrir el selector de hora (Reloj)
+        etHora.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val horaActual = calendario.get(Calendar.HOUR_OF_DAY)
+            val minutoActual = calendario.get(Calendar.MINUTE)
+
+            val timePickerDialog = TimePickerDialog(requireContext(), { _, hourOfDay, minute ->
+                val horaFormateada = String.format("%02d:%02d", hourOfDay, minute)
+                etHora.setText(horaFormateada)
+            }, horaActual, minutoActual, true)
+            timePickerDialog.show()
+        }
+
+        // 6. Gestión del botón Guardar para almacenar el evento en SQLite
+        btnGuardar.setOnClickListener {
+
+            // A. Verificar qué Chip está seleccionado mediante su ID directo
+            val idChipSeleccionado = chipGroupCategoria.checkedChipId
+            if (idChipSeleccionado == View.NO_ID) {
+                Toast.makeText(requireContext(), "Por favor, selecciona una categoría", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // B. Recopilar la información ingresada por el usuario
+            val descripcion = etDescripcion.text.toString().trim()
+            val fecha = etFecha.text.toString().trim()
+            val hora = etHora.text.toString().trim()
+            val ubicacion = etUbicacion.text.toString().trim()
+            val contacto = etContacto.text.toString().trim()
+            val statusText = spinnerStatus.selectedItem.toString()
+            val recordatorio = spinnerRecordatorio.selectedItem.toString()
+
+            // C. Validar la existencia de campos obligatorios
+            if (descripcion.isEmpty() || fecha.isEmpty() || hora.isEmpty() || contacto.isEmpty()) {
+                Toast.makeText(requireContext(), "Por favor, llena los campos obligatorios", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // D. Operación de inserción en la Base de Datos
+            try {
+                // Mapeo inequívoco basado en la referencia ID del recurso XML
+                val categoriaEnum = when (idChipSeleccionado) {
+                    R.id.chipCita -> Categoria.CITA
+                    R.id.chipJunta -> Categoria.JUNTA
+                    R.id.chipProyecto -> Categoria.PROYECTO
+                    R.id.chipExamen -> Categoria.EXAMEN
+                    R.id.chipOtro -> Categoria.OTRO
+                    else -> Categoria.OTRO
+                }
+
+                // Mapeo del estatus según el Spinner
+                val statusEnum = when (statusText.uppercase()) {
+                    "PENDIENTE" -> Status.PENDIENTE
+                    "APLAZADO" -> Status.APLAZADO
+                    "REALIZADO" -> Status.REALIZADO
+                    else -> Status.PENDIENTE
+                }
+
+                // Llamada a tu clase Helper para registrar el evento
+                val conexionHelper = ConexionSQLiteHelper(requireContext())
+                val resultado = conexionHelper.insertarEvento(
+                    cat = categoriaEnum,
+                    fecha = fecha,
+                    hora = hora,
+                    ubi = ubicacion,
+                    contacto = contacto,
+                    estatus = statusEnum,
+                    recordatorio = recordatorio,
+                    descrip = descripcion
+                )
+
+                // Confirmación al usuario
+                if (resultado != -1L) {
+                    Toast.makeText(requireContext(), "¡Evento guardado exitosamente!", Toast.LENGTH_SHORT).show()
+                    // Limpieza integral de la interfaz
+                    limpiarCampos(etDescripcion, etFecha, etHora, etUbicacion, etContacto, chipGroup = chipGroupCategoria)
+                } else {
+                    Toast.makeText(requireContext(), "Error al guardar el evento en la BD", Toast.LENGTH_SHORT).show()
+                }
+
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error en la BD: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    // Función encargada de restaurar los valores iniciales de los campos tras guardar
+    private fun limpiarCampos(vararg campos: TextInputEditText, chipGroup: ChipGroup) {
+        for (campo in campos) {
+            campo.setText("")
+        }
+        chipGroup.clearCheck()
+    }
+
+    // Extracción de metadatos de contacto a partir del URI provisto por el proveedor de contenido
+    @SuppressLint("Range")
+    private fun leerNombreContacto(contactoUri: Uri) {
+        val cursor = requireContext().contentResolver.query(contactoUri, null, null, null, null)
+        if (cursor != null && cursor.moveToFirst()) {
+            val nombre = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+            val etContacto = requireView().findViewById<TextInputEditText>(R.id.etContacto)
+            etContacto.setText(nombre)
+            cursor.close()
+        }
     }
 }

@@ -52,9 +52,11 @@
                     android:id="@+id/chipGroupCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:singleSelection="true">
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCita"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -63,6 +65,7 @@
                         app:chipBackgroundColor="@color/navy" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipJunta"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -71,6 +74,7 @@
                         app:chipBackgroundColor="@color/navy" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipProyecto"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,10 +83,20 @@
                         app:chipBackgroundColor="@color/navy" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chipExamen"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/examen"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/navy" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipOtro"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Otro"
                         android:textColor="@color/white"
                         app:chipBackgroundColor="@color/navy" />
                 </com.google.android.material.chip.ChipGroup>

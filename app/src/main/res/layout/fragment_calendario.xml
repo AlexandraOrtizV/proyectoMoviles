@@ -9,57 +9,76 @@
     android:padding="16dp"
     tools:context=".CalendarioFragment">
 
-    <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"> <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/calendario_titulo"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/botones"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp"
-        app:strokeColor="@color/navy"
-        app:strokeWidth="1dp">
-
-        <CalendarView
-            android:id="@+id/calendarView"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/calendario_titulo"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvFechaSeleccionada"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/eventos_para_hoy"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/botones"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/navy"
+            app:strokeWidth="1dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvEventosCalendario"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/item_evento_hoy" />
+            <com.applandeo.materialcalendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:abbreviationsBarColor="@color/botones"
+                app:abbreviationsLabelsColor="@color/iconos"
+                app:daysLabelsColor="@color/white"
+                app:headerColor="@color/navy"
+                app:headerLabelColor="@color/white"
+                app:pagesColor="@color/botones"
+                app:selectionColor="@color/cian" />
 
-    <TextView
-        android:id="@+id/tvNoEventos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/no_hay_eventos_fecha"
-        android:textColor="#888888"
-        android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvFechaSeleccionada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/eventos_para_hoy"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/containerEventosCalendario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/tvNoEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/no_hay_eventos_fecha"
+            android:textColor="#888888"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

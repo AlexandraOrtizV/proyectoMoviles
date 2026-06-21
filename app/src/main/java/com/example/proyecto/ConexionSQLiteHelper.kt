@@ -9,7 +9,7 @@ class ConexionSQLiteHelper(private val context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 5
         private const val DATABASE_NAME = "Eventos.db"
 
         // TABLA EVENTO
@@ -250,5 +250,23 @@ class ConexionSQLiteHelper(private val context: Context) :
         cursor.close()
         db.close()
         return lista
+    }
+
+
+    //Funcion para calendario
+    fun obtenerTodasLasFechasConEventos(): List<String> {
+        val fechas = mutableListOf<String>()
+        val db = this.readableDatabase
+        val query = "SELECT DISTINCT $CAMPO_EV_FECHA FROM $TABLA_EVENTO"
+        val cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                fechas.add(cursor.getString(0))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return fechas
     }
 }

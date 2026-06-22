@@ -18,6 +18,21 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Calendar
+import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
+import org.json.JSONArray
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
+import android.widget.EditText
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 
 class CrearEventoFragment : Fragment() {
 
@@ -36,12 +51,22 @@ class CrearEventoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ⚠️ MUY IMPORTANTE PARA OSMDROID: Configurar el User Agent antes de usar el mapa
+        Configuration.getInstance().userAgentValue = requireContext().packageName
+
+        // ... (Tu vinculación de vistas se queda igual) ...
+        val etUbicacion = view.findViewById<TextInputEditText>(R.id.etUbicacion)
+
+        // NUEVO: Mostrar el diálogo del mapa al hacer click
+        etUbicacion.setOnClickListener {
+            mostrarDialogoMapa(etUbicacion)
+        }
+
         // 1. Vinculación de todos los componentes visuales del XML
         val chipGroupCategoria = view.findViewById<ChipGroup>(R.id.chipGroupCategoria)
         val etDescripcion = view.findViewById<TextInputEditText>(R.id.etDescripcion)
         val etFecha = view.findViewById<TextInputEditText>(R.id.etFecha)
         val etHora = view.findViewById<TextInputEditText>(R.id.etHora)
-        val etUbicacion = view.findViewById<TextInputEditText>(R.id.etUbicacion)
         val etContacto = view.findViewById<TextInputEditText>(R.id.etContacto)
         val spinnerStatus = view.findViewById<Spinner>(R.id.spinnerStatus)
         val spinnerRecordatorio = view.findViewById<Spinner>(R.id.spinnerRecordatorio)
@@ -172,6 +197,97 @@ class CrearEventoFragment : Fragment() {
             campo.setText("")
         }
         chipGroup.clearCheck()
+    }
+
+    private fun mostrarDialogoMapa(etUbicacionDestino: TextInputEditText) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_mapa, null)
+        val etBuscarMapa = dialogView.findViewById<EditText>(R.id.etBuscarMapa)
+        val btnBuscarMapa = dialogView.findViewById<Button>(R.id.btnBuscarMapa)
+        val mapView = dialogView.findViewById<MapView>(R.id.mapView)
+        val btnConfirmar = dialogView.findViewById<Button>(R.id.btnConfirmarUbicacion)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        // Configuración básica del mapa
+        mapView.setMultiTouchControls(true)
+        val mapController = mapView.controller
+        mapController.setZoom(15.0)
+
+        // Coordenadas iniciales por defecto (CDMX como ejemplo)
+        val startPoint = GeoPoint(19.4326, -99.1332)
+        mapController.setCenter(startPoint)
+
+        var ubicacionSeleccionada: String? = null
+
+        btnBuscarMapa.setOnClickListener {
+            val query = etBuscarMapa.text.toString()
+            if (query.isNotEmpty()) {
+                Toast.makeText(requireContext(), "Buscando...", Toast.LENGTH_SHORT).show()
+                buscarEnNominatim(query, mapView) { nombreLugar ->
+                    ubicacionSeleccionada = nombreLugar
+                    btnConfirmar.isEnabled = true
+                }
+            }
+        }
+
+        btnConfirmar.setOnClickListener {
+            // Pasamos el texto formateado al campo original
+            etUbicacionDestino.setText(ubicacionSeleccionada)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun buscarEnNominatim(query: String, mapView: MapView, onResult: (String) -> Unit) {
+        // Usamos Corrutinas para no congelar la pantalla durante la petición de red
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                // Endpoint de la API gratuita de OpenStreetMap (Nominatim)
+                val urlEncoded = URLEncoder.encode(query, "UTF-8")
+                val url = URL("https://nominatim.openstreetmap.org/search?q=$urlEncoded&format=json&limit=1")
+                val connection = url.openConnection() as HttpURLConnection
+                connection.setRequestProperty("User-Agent", requireContext().packageName)
+
+                val response = connection.inputStream.bufferedReader().readText()
+                val jsonArray = JSONArray(response)
+
+                if (jsonArray.length() > 0) {
+                    val result = jsonArray.getJSONObject(0)
+                    val lat = result.getDouble("lat")
+                    val lon = result.getDouble("lon")
+                    val displayName = result.getString("display_name")
+
+                    // Volvemos al hilo principal para actualizar la interfaz
+                    withContext(Dispatchers.Main) {
+                        val geoPoint = GeoPoint(lat, lon)
+                        mapView.controller.animateTo(geoPoint)
+                        mapView.controller.setZoom(18.0)
+
+                        // Limpiar pines anteriores y colocar uno nuevo
+                        mapView.overlays.clear()
+                        val marker = Marker(mapView)
+                        marker.position = geoPoint
+                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        marker.title = displayName
+                        mapView.overlays.add(marker)
+                        mapView.invalidate() // Refrescar el mapa
+
+                        onResult(displayName)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "No se encontró el lugar", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     // Extracción de metadatos de contacto a partir del URI provisto por el proveedor de contenido

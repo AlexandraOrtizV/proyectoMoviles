@@ -59,4 +59,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     implementation("com.applandeo:material-calendar-view:1.9.2")
+    // Librería principal de Osmdroid
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+    // Corrutinas para hacer la búsqueda en internet sin bloquear la app
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 }

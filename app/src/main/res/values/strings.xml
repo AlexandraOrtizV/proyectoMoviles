@@ -47,13 +47,14 @@
     <string name="calendario_titulo">Calendario de Eventos</string>
     <string name="eventos_para_hoy">Eventos para el día: %s</string>
     <string name="no_hay_eventos_fecha">No hay eventos para esta fecha</string>
-    <string name="respaldo_titulo">Respaldo en Dropbox</string>
-    <string name="restaurar_titulo">Restaurar desde Dropbox</string>
-    <string name="vincular_cuenta">Vincular cuenta de Dropbox</string>
+    <string name="respaldo_titulo">Respaldo en Google Drive</string>
+    <string name="restaurar_titulo">Restaurar desde Google Drive</string>
+    <string name="vincular_cuenta">Vincular cuenta de Google</string>
     <string name="subir_respaldo">Subir Respaldo</string>
     <string name="descargar_respaldo">Descargar y Restaurar</string>
-    <string name="estado_respaldo">Estado del respaldo: %s</string>
-    <string name="ultimo_respaldo">Último respaldo: %s</string>
+    <string name="estado_respaldo">Estado del respaldo:</string>
+    <string name="ultimo_respaldo">Último respaldo:</string>
+    <string name="ultima_restauracion">Última restauración:</string>
     <string name="nunca">Nunca</string>
     <string name="advertencia_restaurar">Advertencia: Al restaurar se perderán los datos locales actuales.</string>
 

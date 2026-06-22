@@ -1,9 +1,14 @@
 package com.example.proyecto
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
@@ -33,6 +38,8 @@ import java.net.URLEncoder
 import android.widget.EditText
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CrearEventoFragment : Fragment() {
 
@@ -178,6 +185,9 @@ class CrearEventoFragment : Fragment() {
 
                 // Confirmación al usuario
                 if (resultado != -1L) {
+                    // AQUÍ ESTÁ LA INTEGRACIÓN: Programamos la alarma justo después de guardar en BD
+                    programarNotificacion(fecha, hora, recordatorio, descripcion)
+
                     Toast.makeText(requireContext(), "¡Evento guardado exitosamente!", Toast.LENGTH_SHORT).show()
                     // Limpieza integral de la interfaz
                     limpiarCampos(etDescripcion, etFecha, etHora, etUbicacion, etContacto, chipGroup = chipGroupCategoria)
@@ -299,6 +309,49 @@ class CrearEventoFragment : Fragment() {
             val etContacto = requireView().findViewById<TextInputEditText>(R.id.etContacto)
             etContacto.setText(nombre)
             cursor.close()
+        }
+    }
+
+    // NUEVA FUNCIÓN AÑADIDA AQUÍ ABAJO PARA LAS NOTIFICACIONES
+    private fun programarNotificacion(fecha: String, hora: String, tipo: String, desc: String) {
+        if (tipo == "Sin recordatorio") return
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val cal = Calendar.getInstance()
+        try {
+            cal.time = sdf.parse("$fecha $hora") ?: return
+        } catch (e: Exception) {
+            return
+        }
+
+        when (tipo) {
+            "10 minutos antes" -> cal.add(Calendar.MINUTE, -10)
+            "1 día antes" -> cal.add(Calendar.DAY_OF_YEAR, -1)
+        }
+
+        val intent = Intent(requireContext(), AlarmReceiver::class.java).apply {
+            putExtra("titulo", "Recordatorio")
+            putExtra("desc", desc)
+        }
+
+        val pi = PendingIntent.getBroadcast(
+            requireContext(),
+            System.currentTimeMillis().toInt(),
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val am = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (am.canScheduleExactAlarms()) {
+                am.setExact(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pi)
+            } else {
+                // Si el permiso falla, usamos setWindow que no crashea la app
+                am.setWindow(AlarmManager.RTC_WAKEUP, cal.timeInMillis, 1000, pi)
+            }
+        } else {
+            am.setExact(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pi)
         }
     }
 }
